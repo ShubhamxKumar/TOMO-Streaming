@@ -1,0 +1,36 @@
+Scaffold(
+        body: Container(
+          height: MediaQuery.of(context).size.height -
+              MediaQuery.of(context).padding.top,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color(0xffB83AF3),
+                Color(0xff6950FB),
+              ],
+              stops: [0.001, 1],
+            ),
+          ),
+          child:
+              /*  user.loading
+              ? Column(
+                  children: [
+                    Lottie.network(
+                      'https://assets2.lottiefiles.com/datafiles/bEYvzB8QfV3EM9a/data.json',
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      height: MediaQuery.of(context).size.width * 0.1,
+                      fit: BoxFit.cover,
+                    ),
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                )
+              :  */
+              Column(
+            children: [],
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(),
+      ),

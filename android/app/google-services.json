@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "467988905707",
+    "firebase_url": "https://tobo-a7049.firebaseio.com",
+    "project_id": "tobo-a7049",
+    "storage_bucket": "tobo-a7049.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467988905707:android:d4b33b94e5f1e941d288ae",
+        "android_client_info": {
+          "package_name": "com.example.videostreaming"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467988905707-nto7q4unu7jmpj07vdoo94k6plhtg2v1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMek_yHHdk8-d6ZG_uq79CVXBw0mLqqmw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467988905707-nto7q4unu7jmpj07vdoo94k6plhtg2v1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
