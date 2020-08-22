@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:videostreaming/screens/TestScreen.dart';
+import 'package:videostreaming/screens/TabBarScreens/Crown.dart';
+import 'package:videostreaming/screens/TabBarScreens/Feature.dart';
+import 'package:videostreaming/screens/TabBarScreens/Nearby.dart';
+import 'package:videostreaming/screens/TabBarScreens/Newest.dart';
+import 'package:videostreaming/screens/TabBarScreens/Search.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -104,11 +108,11 @@ class _HomeState extends State<Home> {
         ),
         body: TabBarView(
           children: [
-            TestScreen(),
-            TestScreen(),
-            TestScreen(),
-            TestScreen(),
-            TestScreen(),
+            Crown(),
+            Feature(),
+            Nearby(),
+            Newest(),
+            Search(),
           ],
         ),
       ),

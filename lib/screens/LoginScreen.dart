@@ -42,7 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
         print('error');
       }
     } catch (err) {
-      print(err.message);
+      print(err);
+      setState(() {
+        loading = false;
+      });
     }
   }
 

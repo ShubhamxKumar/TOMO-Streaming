@@ -51,3 +51,37 @@ Scaffold(
             selectedScreenIndex: _selectedScreenIndex,
           ),
         )
+
+
+
+
+
+
+        Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 7,
+                  horizontal: 14,
+                ),
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.all(0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DropdownButton(
+                      items: [],
+                      onChanged: (value) {},
+                      value: Text('View All'),
+                    ),
+                    DropdownButton(
+                      items: [],
+                      onChanged: (value) {},
+                      value: Row(
+                        children: [
+                          FaIcon(FontAwesomeIcons.globe),
+                          Text('Global'),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
