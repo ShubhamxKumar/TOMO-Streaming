@@ -11,6 +11,7 @@ class _TestScreenState extends State<TestScreen> {
     return SafeArea(
       child: Scaffold(
         body: Text('Test Screen'),
+        backgroundColor: Colors.white,
       ),
     );
   }

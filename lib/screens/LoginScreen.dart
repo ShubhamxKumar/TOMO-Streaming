@@ -39,7 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         print('error');
       }
-    } catch (err) {}
+    } catch (err) {
+      print(err.message);
+    }
   }
 
   @override

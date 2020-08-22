@@ -34,3 +34,20 @@ Scaffold(
         ),
         bottomNavigationBar: BottomNavigationBar(),
       ),
+
+
+
+
+
+
+
+
+
+
+      SizedBox(
+          height: 65,
+          child: BtmNavigationBar(
+            onTap: _selectedScreen,
+            selectedScreenIndex: _selectedScreenIndex,
+          ),
+        )
