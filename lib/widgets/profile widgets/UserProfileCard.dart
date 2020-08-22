@@ -6,17 +6,23 @@ import 'package:videostreaming/providers/UserProvider.dart';
 class UserProfileCard extends StatefulWidget {
   final String name;
   final String uid;
-  final int friends;
-  final int following;
-  final int fans;
-  final String profilePic;
+  final String photo;
+  final int rank;
+  final int views;
+  final List fans;
+  final List friends;
+  final int wallet;
+  final List following;
   UserProfileCard({
     this.fans,
-    this.following,
     this.friends,
     this.name,
-    this.profilePic,
     this.uid,
+    this.photo,
+    this.rank,
+    this.views,
+    this.wallet,
+    this.following,
   });
   @override
   _UserProfileCardState createState() => _UserProfileCardState();
@@ -47,6 +53,10 @@ class _UserProfileCardState extends State<UserProfileCard> {
                   decoration: BoxDecoration(
                     color: Colors.black,
                     shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: NetworkImage(widget.photo),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -58,14 +68,14 @@ class _UserProfileCardState extends State<UserProfileCard> {
                   fontSize: 23,
                 ),
               ),
-              Text(
+              /* Text(
                 'ID: ${widget.uid}',
                 style: TextStyle(
                   fontFamily: 'font',
                   color: Colors.black.withOpacity(0.3),
                   fontSize: 15,
                 ),
-              ),
+              ), */
               FlatButton(
                 onPressed: () async {
                   setState(() {
@@ -137,7 +147,7 @@ class _UserProfileCardState extends State<UserProfileCard> {
                           ),
                         ),
                         Text(
-                          '${widget.friends}',
+                          '${widget.friends.length}',
                           style: TextStyle(
                             fontFamily: 'fontbold',
                             color: Colors.black,
@@ -157,7 +167,7 @@ class _UserProfileCardState extends State<UserProfileCard> {
                           ),
                         ),
                         Text(
-                          '${widget.following}',
+                          '${widget.following.length}',
                           style: TextStyle(
                             fontFamily: 'fontbold',
                             color: Colors.black,
@@ -177,7 +187,7 @@ class _UserProfileCardState extends State<UserProfileCard> {
                           ),
                         ),
                         Text(
-                          '${widget.fans}',
+                          '${widget.fans.length}',
                           style: TextStyle(
                             fontFamily: 'fontbold',
                             color: Colors.black,

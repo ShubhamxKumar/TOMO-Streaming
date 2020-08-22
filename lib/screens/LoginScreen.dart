@@ -3,6 +3,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lottie/lottie.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var email = '';
   var password = '';
   final FacebookLogin facebookLogin = new FacebookLogin();
+  final GoogleSignIn _googleSignIn = new GoogleSignIn(scopes: ['email']);
   final _auth = FirebaseAuth.instance;
   UserCredential _userCredential;
   void submit(String email, String password) {
@@ -39,6 +41,24 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         print('error');
       }
+    } catch (err) {
+      print(err.message);
+    }
+  }
+
+  Future<void> _loginwithgoogle() async {
+    try {
+      setState(() {
+        loading = true;
+      });
+      print('starting');
+      GoogleSignInAccount account = await _googleSignIn.signIn();
+      AuthCredential _credentials = await GoogleAuthProvider.getCredential(
+          idToken: (await account.authentication).idToken,
+          accessToken: (await account.authentication).accessToken);
+      _userCredential = await _auth.signInWithCredential(_credentials);
+      print('ended');
+      print(_userCredential.user);
     } catch (err) {
       print(err.message);
     }
@@ -300,7 +320,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               heroTag: 'twitter',
                             ),
                             FloatingActionButton(
-                              onPressed: () => {},
+                              onPressed: () => {_loginwithgoogle()},
                               child: FaIcon(
                                 FontAwesomeIcons.google,
                                 color: Colors.white,

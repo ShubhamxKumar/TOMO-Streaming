@@ -69,11 +69,15 @@ class _ProfileState extends State<Profile> {
                       ),
                       Center(
                         child: UserProfileCard(
-                          fans: 218,
-                          following: 2000,
-                          friends: 300,
+                          fans: user.getfans,
+                          following: user.getfollowing,
+                          friends: user.getfriends,
                           name: user.getUserName,
                           uid: user.getUid,
+                          photo: user.getphoto,
+                          rank: user.getrank,
+                          views: user.getviews,
+                          wallet: user.getwallet,
                         ),
                       ),
                       Center(
@@ -132,9 +136,9 @@ class _ProfileState extends State<Profile> {
                                   iconColor: Colors.green,
                                 ),
                                 LongCardButtons(
-                                  icon: Icons.list, 
+                                  icon: Icons.list,
                                   label: 'BlackList',
-                                  iconColor: Colors.black, 
+                                  iconColor: Colors.black,
                                 ),
                               ],
                             ),

@@ -10,7 +10,11 @@ class _TestScreenState extends State<TestScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Text('Test Screen'),
+        body: Column(
+          children: [
+            Text('Hello Wordl'),
+          ],
+        ),
         backgroundColor: Colors.white,
       ),
     );
