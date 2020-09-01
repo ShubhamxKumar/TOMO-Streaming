@@ -1,44 +1,66 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:lottie/lottie.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:videostreaming/screens/SignUpScreen.dart';
+import 'dart:async';
 
-class LoginScreen extends StatefulWidget {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:min_id/min_id.dart';
+
+class SignUpScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   bool loading = false;
   final _formkey = GlobalKey<FormState>();
   var email = '';
   var password = '';
-  final FacebookLogin facebookLogin = new FacebookLogin();
-  final GoogleSignIn _googleSignIn = new GoogleSignIn(scopes: ['email']);
+  var name = '';
+  final TextEditingController _nameController = new TextEditingController();
+  var created = false;
   final _auth = FirebaseAuth.instance;
-  UserCredential _userCredential;
-  void submit() {
+  void _saveData() {
     FocusScope.of(context).unfocus();
     if (_formkey.currentState.validate()) {
       _formkey.currentState.save();
-      _loginwithEmailAndPassword(email.trim(), password);
+      signUptheUser(name.trim(), email.trim(), password);
     }
   }
 
-  void _loginwithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
+  void signUptheUser(String name, String email, String password) async {
     try {
       setState(() {
         loading = true;
       });
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      var id = MinId.getId();
+      UserCredential _userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      await Firestore.instance
+          .collection('Users')
+          .document(_userCredential.user.uid)
+          .setData({
+        'fullname': name,
+        'uide': _userCredential.user.uid,
+        'profilepic':
+            'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.yy2wPVsfeyWkRxrh6rNx7gHaHz%26pid%3DApi&f=1',
+        'email': email,
+        'rank': 0,
+        'views': 0,
+        'fans': [],
+        'friends': [],
+        'wallet': 0,
+        'following': [],
+        'ide': id,
+        'bio': 'This is your sample bio.',
+        'live': false,
+      });
       setState(() {
         loading = false;
+        created = true;
+      });
+      Timer(Duration(milliseconds: 2300), () {
+        Navigator.of(context).pop();
       });
     } catch (err) {
       showDialog(
@@ -64,54 +86,34 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> _loginwithfacebook() async {
-    try {
-      setState(() {
-        loading = true;
-      });
-      final FacebookLoginResult _result = await facebookLogin.logIn(['email']);
-      final token = _result.accessToken.token;
-      if (_result.status == FacebookLoginStatus.loggedIn) {
-        final credential = FacebookAuthProvider.getCredential(token);
-        _userCredential = await _auth.signInWithCredential(credential);
-        print(_userCredential.user);
-      } else {
-        print('error');
-      }
-    } catch (err) {
-      print(err);
-      setState(() {
-        loading = false;
-      });
-    }
-  }
-
-  Future<void> _loginwithgoogle() async {
-    try {
-      setState(() {
-        loading = true;
-      });
-      print('starting');
-      GoogleSignInAccount account = await _googleSignIn.signIn();
-      AuthCredential _credentials = await GoogleAuthProvider.getCredential(
-          idToken: (await account.authentication).idToken,
-          accessToken: (await account.authentication).accessToken);
-      _userCredential = await _auth.signInWithCredential(_credentials);
-      print('ended');
-      print(_userCredential.user);
-    } catch (err) {
-      print(err.message);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    var appbar = AppBar(
+      backgroundColor: Colors.white,
+      centerTitle: true,
+      title: Text(
+        'Create Account',
+        style: TextStyle(
+          fontFamily: 'fontbold',
+          color: Colors.black,
+        ),
+      ),
+      automaticallyImplyLeading: false,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.black,
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    );
     return SafeArea(
       child: Scaffold(
+        appBar: appbar,
+        backgroundColor: Colors.white,
         body: Container(
-          height: MediaQuery.of(context).size.height -
-              MediaQuery.of(context).padding.top,
-          width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topRight,
@@ -123,21 +125,36 @@ class _LoginScreenState extends State<LoginScreen> {
               stops: [0.001, 1],
             ),
           ),
-          child: loading
+          height: MediaQuery.of(context).size.height -
+              (MediaQuery.of(context).padding.top +
+                  appbar.preferredSize.height),
+          width: MediaQuery.of(context).size.width,
+          child: created
               ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Lottie.network(
-                      'https://assets2.lottiefiles.com/datafiles/bEYvzB8QfV3EM9a/data.json',
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      height: MediaQuery.of(context).size.width * 0.1,
-                      fit: BoxFit.cover,
+                    Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: MediaQuery.of(context).size.width * 0.4,
+                      child: Card(
+                        color: Colors.transparent,
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Lottie.network(
+                            'https://assets2.lottiefiles.com/private_files/lf30_v2PAPH.json',
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            height: MediaQuery.of(context).size.width * 0.2,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
-                  mainAxisAlignment: MainAxisAlignment.center,
                 )
               : SingleChildScrollView(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         margin: EdgeInsets.all(20),
@@ -155,18 +172,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Sign In',
-                                  style: TextStyle(
-                                    fontFamily: 'fontbold',
-                                    fontSize: 35,
-                                  ),
-                                ),
-                              ],
-                            ),
                             SizedBox(
                               height: 10,
                             ),
@@ -204,6 +209,57 @@ class _LoginScreenState extends State<LoginScreen> {
                                       if (!value.contains('@') ||
                                           !value.contains('.com')) {
                                         return 'Please enter a valid email address';
+                                      }
+                                      return null;
+                                    },
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'font',
+                                        fontSize: 18),
+                                    cursorColor: Colors.black,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Color(0xffF5F5F5),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Name',
+                                        style: TextStyle(
+                                          color: Colors.black.withOpacity(0.3),
+                                          fontFamily: 'font',
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextFormField(
+                                    onSaved: (newValue) {
+                                      name = newValue;
+                                    },
+                                    controller: _nameController,
+                                    key: ValueKey('name'),
+                                    keyboardType: TextInputType.text,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'Please enter a valid name';
                                       }
                                       return null;
                                     },
@@ -278,103 +334,53 @@ class _LoginScreenState extends State<LoginScreen> {
                                   SizedBox(
                                     height: 50,
                                   ),
-                                  InkWell(
-                                    onTap: () => {submit()},
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight,
-                                          colors: [
-                                            Color(0xff6950FB),
-                                            Color(0xffB83AF3),
-                                          ],
-                                        ),
-                                        borderRadius: BorderRadius.circular(40),
-                                      ),
-                                      padding: EdgeInsets.all(15),
-                                      child: Center(
-                                        child: Text(
-                                          'SIGN IN',
-                                          style: TextStyle(
-                                            fontFamily: 'fontbold',
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  FlatButton(
-                                    onPressed: () => {},
-                                    child: Text(
-                                      'Forgot your password?',
-                                      style: TextStyle(fontFamily: 'font'),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Don\'t have a account?',
-                                        style: TextStyle(
-                                          fontFamily: 'font',
-                                          color: Colors.black.withOpacity(
-                                            0.3,
-                                          ),
-                                        ),
-                                      ),
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  SignUpScreen(),
+                                  loading
+                                      ? Lottie.network(
+                                          'https://assets2.lottiefiles.com/datafiles/bEYvzB8QfV3EM9a/data.json',
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.2,
+                                          fit: BoxFit.contain,
+                                        )
+                                      : InkWell(
+                                          onTap: () => {_saveData()},
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                begin: Alignment.centerLeft,
+                                                end: Alignment.centerRight,
+                                                colors: [
+                                                  Color(0xff6950FB),
+                                                  Color(0xffB83AF3),
+                                                ],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(40),
                                             ),
-                                          );
-                                        },
-                                        child: Text(
-                                          'Sign Up',
-                                          style: TextStyle(
-                                            fontFamily: 'font',
+                                            padding: EdgeInsets.all(15),
+                                            child: Center(
+                                              child: Text(
+                                                'CREATE',
+                                                style: TextStyle(
+                                                  fontFamily: 'fontbold',
+                                                  fontSize: 20,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  )
                                 ],
                               ),
                             )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            FloatingActionButton(
-                              onPressed: () => {_loginwithfacebook()},
-                              child: FaIcon(FontAwesomeIcons.facebookF),
-                              heroTag: 'facebook',
-                            ),
-                            FloatingActionButton(
-                              onPressed: () => {},
-                              child: FaIcon(
-                                FontAwesomeIcons.twitter,
-                              ),
-                              backgroundColor: Color(0xff50C4FF),
-                              heroTag: 'twitter',
-                            ),
-                            FloatingActionButton(
-                              onPressed: () => {_loginwithgoogle()},
-                              child: FaIcon(
-                                FontAwesomeIcons.google,
-                                color: Colors.white,
-                              ),
-                              backgroundColor: Color(0xffFC3751),
-                              heroTag: 'google',
-                            ),
                           ],
                         ),
                       ),

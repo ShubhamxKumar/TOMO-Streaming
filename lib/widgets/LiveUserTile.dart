@@ -6,11 +6,21 @@ class LiveUserTile extends StatefulWidget {
   final String name;
   final int rank;
   final views;
+  final Function onTap;
+  final String id;
+  final List fans;
+  final List following;
+  final List friends;
   LiveUserTile({
     this.name,
     this.photo,
     this.rank,
     this.views,
+    this.onTap,
+    this.fans,
+    this.following,
+    this.id,
+    this.friends,
   });
   @override
   _LiveUserTileState createState() => _LiveUserTileState();
@@ -71,12 +81,27 @@ class _LiveUserTileState extends State<LiveUserTile> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '${widget.name}',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'font',
-                  fontWeight: FontWeight.bold,
+              InkWell(
+                onTap: () {
+                  widget.onTap(
+                    context,
+                    widget.photo,
+                    widget.name,
+                    widget.rank,
+                    widget.views,
+                    widget.id,
+                    widget.fans,
+                    widget.following,
+                    widget.friends,
+                  );
+                },
+                child: Text(
+                  '${widget.name}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'font',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Container(

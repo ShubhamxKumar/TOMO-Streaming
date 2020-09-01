@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:videostreaming/screens/TabBarScreens/Crown.dart';
 import 'package:videostreaming/screens/TabBarScreens/Feature.dart';
+import 'package:videostreaming/screens/TabBarScreens/Crown.dart';
 import 'package:videostreaming/screens/TabBarScreens/Nearby.dart';
 import 'package:videostreaming/screens/TabBarScreens/Newest.dart';
 import 'package:videostreaming/screens/TabBarScreens/Search.dart';
@@ -15,7 +15,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      initialIndex: 0,
+      length: 3,
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70),
@@ -36,66 +37,90 @@ class _HomeState extends State<Home> {
               ),
               child: AppBar(
                 flexibleSpace: SafeArea(
-                  child: TabBar(
-                    indicatorPadding: EdgeInsets.all(0),
-                    labelPadding: EdgeInsets.all(0),
-                    labelColor: Colors.white,
-                    unselectedLabelColor: Colors.white,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicator: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      // borderRadius: BorderRadius.only(
-                      //     topLeft: Radius.circular(10),
-                      //     topRight: Radius.circular(10)),
-                      color: Colors.white.withOpacity(
-                        0.2,
-                      ),
-                    ),
-                    tabs: [
-                      Tab(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: FaIcon(FontAwesomeIcons.crown),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        padding: const EdgeInsets.all(8.0),
+                        icon: FaIcon(
+                          FontAwesomeIcons.crown,
+                          color: Colors.white,
                         ),
-                      ),
-                      Tab(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Feature",
-                            style: TextStyle(
-                              fontFamily: 'font',
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => Crown(),
                             ),
+                          );
+                        },
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: TabBar(
+                            indicatorPadding: EdgeInsets.all(0),
+                            labelPadding: EdgeInsets.all(0),
+                            labelColor: Colors.white,
+                            unselectedLabelColor: Colors.white,
+                            indicatorSize: TabBarIndicatorSize.label,
+                            indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              // borderRadius: BorderRadius.only(
+                              //     topLeft: Radius.circular(10),
+                              //     topRight: Radius.circular(10)),
+                              color: Colors.white.withOpacity(
+                                0.2,
+                              ),
+                            ),
+                            tabs: [
+                              Tab(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Feature",
+                                    style: TextStyle(
+                                      fontFamily: 'font',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Nearby",
+                                    style: TextStyle(
+                                      fontFamily: 'font',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Newest",
+                                    style: TextStyle(
+                                      fontFamily: 'font',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      Tab(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Nearby",
-                            style: TextStyle(
-                              fontFamily: 'font',
+                      IconButton(
+                        padding: const EdgeInsets.all(8.0),
+                        icon: FaIcon(
+                          FontAwesomeIcons.search,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => Search(),
                             ),
-                          ),
-                        ),
-                      ),
-                      Tab(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Newest",
-                            style: TextStyle(
-                              fontFamily: 'font',
-                            ),
-                          ),
-                        ),
-                      ),
-                      Tab(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: FaIcon(FontAwesomeIcons.search),
-                        ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -108,11 +133,9 @@ class _HomeState extends State<Home> {
         ),
         body: TabBarView(
           children: [
-            Crown(),
             Feature(),
             Nearby(),
             Newest(),
-            Search(),
           ],
         ),
       ),

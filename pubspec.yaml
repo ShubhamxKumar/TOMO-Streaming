@@ -36,6 +36,9 @@ dependencies:
   curved_navigation_bar: ^0.3.3
   google_sign_in: ^4.5.3
   cloud_firestore: ^0.14.0+2
+  agora_rtc_engine: 1.0.5
+  permission_handler: ^3.0.0
+  min_id: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -70,17 +73,16 @@ flutter:
   fonts:
     - family: font
       fonts:
-        - asset: assets/fonts/sf-ui-display-black.ttf
-        - asset: assets/fonts/sf-ui-display-medium.ttf
+        - asset: assets/fonts/Poppins-Black.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
     #         style: italic
     - family: fontbold
       fonts:
-        - asset: assets/fonts/sf-ui-display-bold.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
 
     - family: fontlight
       fonts:
-        - asset: assets/fonts/sf-ui-display-thin.ttf
-        - asset: assets/fonts/sf-ui-display-ultralight.ttf
+        - asset: assets/fonts/Poppins-Thin.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

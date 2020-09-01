@@ -5,8 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:videostreaming/providers/UserProvider.dart';
 import 'package:videostreaming/screens/BottomNavigationScreens/Favorite.dart';
 import 'package:videostreaming/screens/BottomNavigationScreens/Home.dart';
+import 'package:videostreaming/screens/BottomNavigationScreens/LiveConfirmationPage.dart';
 import 'package:videostreaming/screens/BottomNavigationScreens/Messages.dart';
 import 'package:videostreaming/screens/BottomNavigationScreens/Profile.dart';
+import 'package:videostreaming/screens/BottomNavigationScreens/Video.dart';
+import 'package:videostreaming/screens/NoEmailScreen.dart';
 import 'package:videostreaming/screens/TestScreen.dart';
 import 'package:videostreaming/widgets/BtmNavigationBar.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -42,70 +45,104 @@ class _HomeScreenState extends State<HomeScreen> {
     final List<Widget> _screens = [
       Home(),
       Favorite(),
-      TestScreen(),
+      LiveConfirmationPage(channelName: user.getUid,),
       Messages(),
       Profile(),
     ];
-    return SafeArea(
-      child: Scaffold(
-        bottomNavigationBar: CurvedNavigationBar(
-          items: [
-            FaIcon(
-              FontAwesomeIcons.home,
-              color: _selectedScreenIndex == 0 ? Colors.white : Colors.black,
-            ),
-            FaIcon(
-              FontAwesomeIcons.solidHeart,
-              color: _selectedScreenIndex == 1 ? Colors.white : Colors.black,
-            ),
-            Container(
-              width: 50,
-              height: 50,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    Color(0xff6950FB),
-                    Color(0xffB83AF3),
+    return user.getLoading
+        ? SafeArea(
+            child: Scaffold(
+              body: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomRight,
+                    end: Alignment.topLeft,
+                    colors: [
+                      Color(0xff6950FB),
+                      Color(0xffB83AF3),
+                    ],
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Lottie.network(
+                      'https://assets2.lottiefiles.com/datafiles/bEYvzB8QfV3EM9a/data.json',
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      height: MediaQuery.of(context).size.width * 0.1,
+                      fit: BoxFit.cover,
+                    ),
                   ],
-                ),
-              ),
-              child: Center(
-                child: Image.asset(
-                  'assets/splash_icon.png',
-                  fit: BoxFit.contain,
+                  mainAxisAlignment: MainAxisAlignment.center,
                 ),
               ),
             ),
-            FaIcon(
-              FontAwesomeIcons.facebookMessenger,
-              color: _selectedScreenIndex == 3 ? Colors.white : Colors.black,
+          )
+        : SafeArea(
+            child: Scaffold(
+              bottomNavigationBar: CurvedNavigationBar(
+                items: [
+                  FaIcon(
+                    FontAwesomeIcons.home,
+                    color:
+                        _selectedScreenIndex == 0 ? Colors.white : Colors.black,
+                  ),
+                  FaIcon(
+                    FontAwesomeIcons.solidHeart,
+                    color:
+                        _selectedScreenIndex == 1 ? Colors.white : Colors.black,
+                  ),
+                  Container(
+                    width: 50,
+                    height: 50,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          Color(0xff6950FB),
+                          Color(0xffB83AF3),
+                        ],
+                      ),
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        'assets/splash_icon.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  FaIcon(
+                    FontAwesomeIcons.facebookMessenger,
+                    color:
+                        _selectedScreenIndex == 3 ? Colors.white : Colors.black,
+                  ),
+                  Icon(
+                    Icons.person,
+                    color:
+                        _selectedScreenIndex == 4 ? Colors.white : Colors.black,
+                  ),
+                ],
+                onTap: (value) {
+                  setState(
+                    () {
+                      print(value);
+                      _selectedScreenIndex = value;
+                    },
+                  );
+                },
+                buttonBackgroundColor: Color(0xff6950FB),
+                backgroundColor: Colors.white,
+                color: Colors.white,
+                animationDuration: Duration(
+                  milliseconds: 500,
+                ),
+              ),
+              body: _screens[_selectedScreenIndex],
             ),
-            Icon(
-              Icons.person,
-              color: _selectedScreenIndex == 4 ? Colors.white : Colors.black,
-            ),
-          ],
-          onTap: (value) {
-            setState(
-              () {
-                print(value);
-                _selectedScreenIndex = value;
-              },
-            );
-          },
-          buttonBackgroundColor: Color(0xff6950FB),
-          backgroundColor: Colors.white,
-          color: Colors.white,
-          animationDuration: Duration(
-            milliseconds: 500,
-          ),
-        ),
-        body: _screens[_selectedScreenIndex],
-      ),
-    );
+          );
   }
 }

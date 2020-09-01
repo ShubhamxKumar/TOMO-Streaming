@@ -6,6 +6,7 @@ import 'package:videostreaming/providers/UserProvider.dart';
 class UserProfileCard extends StatefulWidget {
   final String name;
   final String uid;
+  final String id;
   final String photo;
   final int rank;
   final int views;
@@ -23,6 +24,7 @@ class UserProfileCard extends StatefulWidget {
     this.views,
     this.wallet,
     this.following,
+    this.id,
   });
   @override
   _UserProfileCardState createState() => _UserProfileCardState();
@@ -68,14 +70,14 @@ class _UserProfileCardState extends State<UserProfileCard> {
                   fontSize: 23,
                 ),
               ),
-              /* Text(
-                'ID: ${widget.uid}',
+              Text(
+                'ID: ${widget.id}',
                 style: TextStyle(
                   fontFamily: 'font',
                   color: Colors.black.withOpacity(0.3),
                   fontSize: 15,
                 ),
-              ), */
+              ),
               FlatButton(
                 onPressed: () async {
                   setState(() {

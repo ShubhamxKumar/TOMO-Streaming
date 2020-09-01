@@ -44,6 +44,45 @@ Scaffold(
 
 
 
+
+
+
+
+
+
+
+
+Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              FlatButton(
+                onPressed: () {},
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.report_problem,
+                      color: Colors.red,
+                      size: 15,
+                    ),
+                    Text(
+                      'Report',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 8,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+
+
+
+
+
+
       SizedBox(
           height: 65,
           child: BtmNavigationBar(
@@ -85,3 +124,31 @@ Scaffold(
                   ],
                 ),
               ),
+
+
+
+
+
+
+
+
+
+
+
+              children: snapshot.data.documents.map((user) {
+                      if (user.data()['live'] == true) {
+                        return LiveUserTile(
+                          name: user.data()['name'],
+                          photo: user.data()['photo'],
+                          rank: user.data()['rank'],
+                          views: user.data()['views'],
+                          onTap: showOtherUserProfile,
+                          fans: user.data()['fans'],
+                          following: user.data()['following'],
+                          friends: user.data()['friends'],
+                          id: user.data()['id'],
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }).toList(),
