@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -169,11 +171,7 @@ class UserProvider extends ChangeNotifier {
       liveStatus = status;
       notifyListeners();
     } catch (err) {
-      uid = null;
-      email = null;
-      username = null;
-      loading = false;
-      error = err.message;
+      liveStatus = false;
       print(err.message);
       notifyListeners();
     }
@@ -211,11 +209,13 @@ class UserProvider extends ChangeNotifier {
         'following': following,
       });
     } catch (err) {
-      uid = null;
-      email = null;
-      username = null;
-      loading = false;
-      error = err.message;
+      var user;
+      following.map((element) {
+        if (element['id'] == tid) {
+          user = element;
+        }
+      }).toList();
+      following.remove(user);
       print(err.message);
     }
     notifyListeners();
@@ -259,14 +259,35 @@ class UserProvider extends ChangeNotifier {
         'following': following,
       });
     } catch (err) {
-      uid = null;
-      email = null;
-      username = null;
-      loading = false;
-      error = err.message;
+      var user = {
+        'name': tname,
+        'id': tid,
+      };
+      following.add(user);
       print(err.message);
     }
     notifyListeners();
+  }
+
+  Future<bool> updateProfile(
+    String tname,
+    String tbio,
+  ) async {
+    try {
+      DocumentSnapshot _docsnap =
+          await Firestore.instance.collection('Users').doc(uid).get();
+      await _docsnap.reference.updateData({
+        'bio': tbio,
+        'fullname': tname,
+      });
+      bio = tbio;
+      username = tname;
+      notifyListeners();
+      return true;
+    } catch (err) {
+      print(err.message);
+      return false;
+    }
   }
 
   void clearUserInfo() {
