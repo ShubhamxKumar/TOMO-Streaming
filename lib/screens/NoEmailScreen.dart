@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:videostreaming/providers/UserProvider.dart';
+import 'package:videostreaming/widgets/profile%20widgets/UserProfileCard.dart';
 
 class NoEmailScreen extends StatefulWidget {
   @override
@@ -7,9 +10,10 @@ class NoEmailScreen extends StatefulWidget {
 
 class _NoEmailScreenState extends State<NoEmailScreen> {
   final TextEditingController _emailController = new TextEditingController();
-  bool _loading = false;
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserProvider>(context);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -90,12 +94,12 @@ class _NoEmailScreenState extends State<NoEmailScreen> {
                         RaisedButton(
                           onPressed: () {
                             setState(() {
-                              _loading = true;
+                              loading = true;
                             });
                             final String email = _emailController.text;
                             if (!email.contains('@') ||
                                 !email.contains('.com')) {
-                              showDialog(
+                              return showDialog(
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
@@ -106,7 +110,7 @@ class _NoEmailScreenState extends State<NoEmailScreen> {
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                           setState(() {
-                                            _loading = false;
+                                            loading = false;
                                           });
                                         },
                                         child: Text('OK'),
@@ -115,9 +119,44 @@ class _NoEmailScreenState extends State<NoEmailScreen> {
                                   );
                                 },
                               );
+                            } else {
+                              setState(() {
+                                loading = true;
+                              });
+                              user
+                                  .updateEmail(_emailController.text)
+                                  .then((res) {
+                                if (res) {
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                  return showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('Error'),
+                                        content: Text(
+                                            'Some Error occured, please try again later.'),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text('OK'),
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                              });
                             }
                           },
-                          child: _loading
+                          child: loading
                               ? CircularProgressIndicator()
                               : Text(
                                   'Submit',

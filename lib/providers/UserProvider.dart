@@ -139,27 +139,6 @@ class UserProvider extends ChangeNotifier {
     return bio;
   }
 
-  Future<void> updateEmail(String e) async {
-    try {
-      final docSnap =
-          await Firestore.instance.collection('Profiles').document(uid).get();
-      if (docSnap.exists) {
-        docSnap.reference.update({
-          email: e,
-        });
-      }
-      email = e;
-      notifyListeners();
-    } catch (err) {
-      uid = null;
-      email = null;
-      username = null;
-      loading = false;
-      error = err.message;
-      print(err.message);
-    }
-  }
-
   Future<void> updateLiveStatus(bool status) async {
     try {
       DocumentSnapshot _doc =
@@ -282,6 +261,22 @@ class UserProvider extends ChangeNotifier {
       });
       bio = tbio;
       username = tname;
+      notifyListeners();
+      return true;
+    } catch (err) {
+      print(err.message);
+      return false;
+    }
+  }
+
+  Future<bool> updateEmail(String temail) async {
+    try {
+      DocumentSnapshot _docsnap =
+          await Firestore.instance.collection('Users').doc(uid).get();
+      await _docsnap.reference.updateData({
+        'email': temail,
+      });
+      email = temail;
       notifyListeners();
       return true;
     } catch (err) {

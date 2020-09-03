@@ -36,65 +36,64 @@ class _MessagesState extends State<Messages> {
   ];
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.all(13),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [
-                      Color(0xff6950FB),
-                      Color(0xffB83AF3),
-                    ],
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(),
-                    Center(
-                      child: Text(
-                        'Messages',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'fontlight',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 22,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: FaIcon(
-                        FontAwesomeIcons.search,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      onPressed: () {},
-                    ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only( 
+                  top: MediaQuery.of(context).padding.top),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Color(0xff6950FB),
+                    Color(0xffB83AF3),
                   ],
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: UsersLive.map((user) {
-                      return MessageTile(
-                        name: user['name'],
-                        photo: user['photo'],
-                        latest: user['latest'],
-                      );
-                    }).toList(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  Center(
+                    child: Text(
+                      'Messages',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'fontlight',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 22,
+                      ),
+                    ),
                   ),
+                  IconButton(
+                    icon: FaIcon(
+                      FontAwesomeIcons.search,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: UsersLive.map((user) {
+                    return MessageTile(
+                      name: user['name'],
+                      photo: user['photo'],
+                      latest: user['latest'],
+                    );
+                  }).toList(),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -13,12 +13,11 @@ class _FavoriteState extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<UserProvider>(context);
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         body: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).padding.top),  
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,
@@ -57,7 +56,6 @@ class _FavoriteState extends State<Favorite> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

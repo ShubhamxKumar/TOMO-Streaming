@@ -19,9 +19,8 @@ class _LiveConfirmationPageState extends State<LiveConfirmationPage> {
     var user = Provider.of<UserProvider>(context);
     return (user.getEmail == null || user.getEmail.isEmpty)
         ? NoEmailScreen()
-        : SafeArea(
-            child: Scaffold(
-              body: Container(
+        : Scaffold(
+              body: Container(  
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.bottomRight,
@@ -87,8 +86,7 @@ class _LiveConfirmationPageState extends State<LiveConfirmationPage> {
                   ],
                 ),
               ),
-            ),
-          );
+            );
   }
 
   Future<void> onJoin() async {

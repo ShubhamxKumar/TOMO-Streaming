@@ -39,6 +39,7 @@ dependencies:
   agora_rtc_engine: 1.0.5
   permission_handler: ^3.0.0
   min_id: ^1.0.3
+  flutter_statusbarcolor: ^0.2.3
 
 dev_dependencies:
   flutter_test:

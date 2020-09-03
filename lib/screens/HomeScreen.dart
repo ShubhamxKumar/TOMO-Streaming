@@ -8,11 +8,8 @@ import 'package:videostreaming/screens/BottomNavigationScreens/Home.dart';
 import 'package:videostreaming/screens/BottomNavigationScreens/LiveConfirmationPage.dart';
 import 'package:videostreaming/screens/BottomNavigationScreens/Messages.dart';
 import 'package:videostreaming/screens/BottomNavigationScreens/Profile.dart';
-import 'package:videostreaming/screens/BottomNavigationScreens/Video.dart';
-import 'package:videostreaming/screens/NoEmailScreen.dart';
-import 'package:videostreaming/screens/TestScreen.dart';
-import 'package:videostreaming/widgets/BtmNavigationBar.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -45,7 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final List<Widget> _screens = [
       Home(),
       Favorite(),
-      LiveConfirmationPage(channelName: user.getUid,),
+      LiveConfirmationPage(
+        channelName: user.getUid,
+      ),
       Messages(),
       Profile(),
     ];
@@ -79,8 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           )
-        : SafeArea(
-            child: Scaffold(
+        : Scaffold(
+              backgroundColor: Colors.black,
               bottomNavigationBar: CurvedNavigationBar(
                 items: [
                   FaIcon(
@@ -140,9 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 animationDuration: Duration(
                   milliseconds: 500,
                 ),
+                height: 60,
               ),
               body: _screens[_selectedScreenIndex],
-            ),
-          );
+            );
   }
 }

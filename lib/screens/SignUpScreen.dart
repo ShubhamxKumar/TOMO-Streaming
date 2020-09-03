@@ -88,30 +88,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var appbar = AppBar(
-      backgroundColor: Colors.white,
-      centerTitle: true,
-      title: Text(
-        'Create Account',
-        style: TextStyle(
-          fontFamily: 'fontbold',
-          color: Colors.black,
-        ),
-      ),
-      automaticallyImplyLeading: false,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.black,
-        ),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-    );
     return SafeArea(
       child: Scaffold(
-        appBar: appbar,
         backgroundColor: Colors.white,
         body: Container(
           decoration: BoxDecoration(
@@ -126,8 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
           height: MediaQuery.of(context).size.height -
-              (MediaQuery.of(context).padding.top +
-                  appbar.preferredSize.height),
+              (MediaQuery.of(context).padding.top),
           width: MediaQuery.of(context).size.width,
           child: created
               ? Column(

@@ -94,7 +94,7 @@ class _FeatureState extends State<Feature> {
           child: Center(
             child: Container(
               padding: EdgeInsets.only(
-                top: 5,
+                top: 0,
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -191,13 +191,14 @@ class _FeatureState extends State<Feature> {
                           ),
                     ],
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      childAspectRatio: 1,
+                      childAspectRatio: 1.5,  
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                       maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
+                      
                     ),
                   );
-                })),
+                },),),
       ),
     );
   }

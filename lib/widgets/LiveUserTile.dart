@@ -30,8 +30,8 @@ class _LiveUserTileState extends State<LiveUserTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.45,
-      height: MediaQuery.of(context).size.width * 0.45,
+      width: MediaQuery.of(context).size.width * 0.40,
+      height: MediaQuery.of(context).size.width * 0.30,  
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(widget.photo),

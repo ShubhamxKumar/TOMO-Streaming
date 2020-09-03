@@ -50,8 +50,7 @@ class _ProfileState extends State<Profile> {
           )
         : (user.getEmail == null || user.getEmail.isEmpty)
             ? NoEmailScreen()
-            : SafeArea(
-                child: Scaffold(
+            : Scaffold(
                   body: Container(
                     padding: EdgeInsets.all(0),
                     margin: EdgeInsets.all(0),
@@ -202,7 +201,6 @@ class _ProfileState extends State<Profile> {
                       ],
                     ),
                   ),
-                ),
-              );
+                );
   }
 }
